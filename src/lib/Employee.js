@@ -1,6 +1,3 @@
-const { prompt } = require("inquirer");
-// const inquirer = require("inquirer");
-
 class Employee {
   constructor(name, id, email, role) {
     this.name = name;
@@ -18,7 +15,7 @@ class Employee {
     return this.email;
   }
   getRole() {
-    return this.role;
+    return "Employee";
   }
 }
 
