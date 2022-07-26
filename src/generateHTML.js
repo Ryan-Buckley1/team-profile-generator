@@ -10,7 +10,7 @@ const genPage = function (teamCards) {
     </head>
     <body>
         <header class="jumbotron-fluid text-center p-5 bg-danger">
-            <h1 class="font-weight-bold"> Team </h1>
+            <h1 class="font-weight-bold"> My Team </h1>
         </header>
 
         <main>
@@ -31,13 +31,13 @@ const managerCard = function (manager) {
     <div class="card" style="width: 18rem;">
         <div class="card-body">
             <div class="bg-primary p-2 text-white">
-                <h5 class="card-title bg-primary">${manager.name}</h5>
+                <h5 class="card-title bg-primary border-bottom">${manager.name}</h5>
                 <h6 class="card-subtitle mb-2 text-muted bg-primary">Manager</h6>
             </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID: ${manager.id}</li>
-                <li class="list-group-item">Email: <a href="mailto:${manager.email}">${manager.email}</a></li>
-                <li class="list-group-item">Office Number: ${manager.officeNumber}</li>
+            <ul class="list-group list-group-flush bg-secondary">
+                <li class="list-group-item border">ID: ${manager.id}</li>
+                <li class="list-group-item border">Email: <a href="mailto:${manager.email}">${manager.email}</a></li>
+                <li class="list-group-item border">Office Number: ${manager.officeNumber}</li>
             </ul>
         </div>
     </div>
@@ -48,12 +48,14 @@ const internCard = function (intern) {
   return `
     <div class="card" style="width: 18rem;">
         <div class="card-body">
-            <h5 class="card-title">${intern.name}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Intern</h6>
-            <ul class="list-group list-group-flush bg-">
-                <li class="list-group-item">ID: ${intern.id}</li>
-                <li class="list-group-item">Email: <a href="mailto:${intern.email}">${intern.email}</a></li>
-                <li class="list-group-item">${intern.school}</li>
+            <div class="bg-primary p-2 text-white">
+                <h5 class="card-title bg-primary">${intern.name}</h5>
+                <h6 class="card-subtitle bg-primary">Intern</h6>
+            </div>
+            <ul class="list-group list-group-flush bg-secondary">
+                <li class="list-group-item border">ID: ${intern.id}</li>
+                <li class="list-group-item border">Email: <a href="mailto:${intern.email}">${intern.email}</a></li>
+                <li class="list-group-item border">School: ${intern.school}</li>
             </ul>
         </div>
     </div>
@@ -64,12 +66,14 @@ const engineerCard = function (engineer) {
   return `
     <div class="card" style="width: 18rem;">
         <div class="card-body">
-            <h5 class="card-title">${engineer.name}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Engineer</h6>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID: ${engineer.id}</li>
-                <li class="list-group-item">Email: <a href="mailto:${engineer.email}">${engineer.email}</a></li>
-                <li class="list-group-item">GitHub: <a href="https://github.com/${engineer.github}">${engineer.github}</a></li>
+            <div class="bg-primary p-2 text-white">
+                <h5 class="card-title bg-primary">${engineer.name}</h5>
+                <h6 class="card-subtitle bg-primary">Engineer</h6>
+            </div>
+            <ul class="list-group list-group-flush bg-secondary">
+                <li class="list-group-item border">ID: ${engineer.id}</li>
+                <li class="list-group-item border">Email: <a href="mailto:${engineer.email}">${engineer.email}</a></li>
+                <li class="list-group-item border">GitHub: <a href="https://github.com/${engineer.github}">${engineer.github}</a></li>
             </ul>
         </div>
     </div>
