@@ -1,8 +1,9 @@
 const inquirer = require("inquirer");
-const { writeFile } = require("fs");
+const fs = require("fs");
 const Manager = require("./src/lib/Manager");
 const Engineer = require("./src/lib/Engineer");
 const Intern = require("./src/lib/Intern");
+const generateHTML = require("./src/generateHTML");
 
 let workforceArr = [];
 
@@ -163,12 +164,12 @@ const employeeQuestions = [
 // ];
 
 const createManager = () => {
-  inquirer.prompt(managerQuestions).then((manAnswers) => {
+  return inquirer.prompt(managerQuestions).then((manAnswers) => {
     const manager = new Manager(
       manAnswers.name,
       manAnswers.id,
-      "Manager",
       manAnswers.email,
+      "Manager",
       manAnswers.officeNum
     );
     workforceArr.push(manager);
@@ -176,34 +177,55 @@ const createManager = () => {
 };
 
 const createEmployee = () => {
-  inquirer.prompt(employeeQuestions).then((empAnswers) => {
+  return inquirer.prompt(employeeQuestions).then((empAnswers) => {
     if (empAnswers.role === "Engineer") {
       const engineer = new Engineer(
         empAnswers.name,
         empAnswers.id,
         empAnswers.email,
-        empAnswers.role,
+        "Engineer",
         empAnswers.github
       );
-      console.log(engineer);
+      // console.log(engineer);
       workforceArr.push(engineer);
     } else if (empAnswers.role === "Intern") {
       const intern = new Intern(
         empAnswers.name,
         empAnswers.id,
-        empAnswers.role,
         empAnswers.email,
+        "Intern",
         empAnswers.school
       );
-      console.log(intern);
+      // console.log(intern);
       workforceArr.push(intern);
     }
     if (empAnswers.addNewEmployee) {
+      // console.log(workforceArr);
       return createEmployee(workforceArr);
     } else {
+      // console.log(workforceArr);
       return workforceArr;
     }
   });
 };
 
-createEmployee();
+const createPage = (completedHTML) => {
+  fs.writeFile("./src/dist/index.html", completedHTML, (err) => {
+    if (err) {
+      console.log(err);
+      return;
+    } else {
+      console.log("Your profile has been created! Check index.html!");
+    }
+  });
+};
+
+createManager()
+  .then(createEmployee)
+  .then((workforceArr) => {
+    // console.log(workforceArr);
+    return generateHTML(workforceArr);
+  })
+  .then((completedHTML) => {
+    return createPage(completedHTML);
+  });
