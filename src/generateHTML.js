@@ -31,8 +31,8 @@ const managerCard = function (manager) {
     <div class="card" style="width: 18rem;">
         <div class="card-body">
             <div class="bg-primary p-2 text-white">
-                <h5 class="card-title bg-primary border-bottom">${manager.name}</h5>
-                <h6 class="card-subtitle mb-2 text-muted bg-primary">Manager</h6>
+                <h5 class="card-title bg-primary">${manager.name}</h5>
+                <h6 class="card-subtitle mb-2 bg-primary">Manager</h6>
             </div>
             <ul class="list-group list-group-flush bg-secondary">
                 <li class="list-group-item border">ID: ${manager.id}</li>
