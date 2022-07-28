@@ -65,6 +65,9 @@ const employeeQuestions = [
     message: "Choose your employee's role.",
     choices: ["Engineer", "Intern"],
   },
+];
+
+const engineerQuestion = [
   {
     name: "name",
     type: "input",
@@ -104,7 +107,7 @@ const employeeQuestions = [
   {
     name: "github",
     type: "input",
-    message: "Please enter your Employee's GitHub name.",
+    message: "Please enter your Engineer's GitHub name.",
     validate: (githubName) => {
       if (githubName) {
         return true;
@@ -114,9 +117,54 @@ const employeeQuestions = [
     },
   },
   {
+    name: "addNewEmployee",
+    type: "confirm",
+    message: "Would you like to add another employee?",
+    default: false,
+  },
+];
+
+const internQuestion = [
+  {
+    name: "name",
+    type: "input",
+    message: "What is the Employee's Name?",
+    validate: (manName) => {
+      if (manName) {
+        return true;
+      } else {
+        return "Please enter a name!";
+      }
+    },
+  },
+  {
+    name: "id",
+    type: "input",
+    message: "Please enter the Employee's Employee ID.",
+    validate: (idNum) => {
+      if (isNaN(idNum)) {
+        return "Please enter a valid ID number!";
+      } else {
+        return true;
+      }
+    },
+  },
+  {
+    name: "email",
+    type: "input",
+    message: "Please enter the Employee's Email.",
+    validate: (manEmail) => {
+      if (manEmail.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+        return true;
+      } else {
+        return "Please enter a valid Email";
+      }
+    },
+  },
+  {
     name: "school",
     type: "input",
-    message: "Please enter your Employee's school name.",
+    message: "Please enter your Intern's school name.",
     validate: (schoolName) => {
       if (schoolName) {
         return true;
@@ -133,36 +181,6 @@ const employeeQuestions = [
   },
 ];
 
-// const engineerQuestion = [
-//   {
-//     name: "github",
-//     type: "input",
-//     message: "Please enter your Engineer's GitHub name.",
-//     validate: (githubName) => {
-//       if (githubName) {
-//         return true;
-//       } else {
-//         return "Please enter a github username!";
-//       }
-//     },
-//   },
-// ];
-
-// const internQuestion = [
-//   {
-//     name: "school",
-//     type: "input",
-//     message: "Please enter your Intern's school name.",
-//     validate: (schoolName) => {
-//       if (schoolName) {
-//         return true;
-//       } else {
-//         return "Please enter a school name!";
-//       }
-//     },
-//   },
-// ];
-
 const createManager = () => {
   return inquirer.prompt(managerQuestions).then((manAnswers) => {
     const manager = new Manager(
@@ -176,35 +194,48 @@ const createManager = () => {
   });
 };
 
+const createIntern = () => {
+  return inquirer.prompt(internQuestion).then((intAnswers) => {
+    const intern = new Intern(
+      intAnswers.name,
+      intAnswers.id,
+      intAnswers.email,
+      "Intern",
+      intAnswers.school
+    );
+    workforceArr.push(intern);
+    if (intAnswers.addNewEmployee) {
+      return createEmployee(workforceArr);
+    } else {
+      return workforceArr;
+    }
+  });
+};
+
+const createEngineer = () => {
+  return inquirer.prompt(engineerQuestion).then((engAnswers) => {
+    const engineer = new Engineer(
+      engAnswers.name,
+      engAnswers.id,
+      engAnswers.email,
+      "Engineer",
+      engAnswers.github
+    );
+    workforceArr.push(engineer);
+    if (engAnswers.addNewEmployee) {
+      return createEmployee(workforceArr);
+    } else {
+      return workforceArr;
+    }
+  });
+};
+
 const createEmployee = () => {
   return inquirer.prompt(employeeQuestions).then((empAnswers) => {
     if (empAnswers.role === "Engineer") {
-      const engineer = new Engineer(
-        empAnswers.name,
-        empAnswers.id,
-        empAnswers.email,
-        "Engineer",
-        empAnswers.github
-      );
-      // console.log(engineer);
-      workforceArr.push(engineer);
+      return createEngineer();
     } else if (empAnswers.role === "Intern") {
-      const intern = new Intern(
-        empAnswers.name,
-        empAnswers.id,
-        empAnswers.email,
-        "Intern",
-        empAnswers.school
-      );
-      // console.log(intern);
-      workforceArr.push(intern);
-    }
-    if (empAnswers.addNewEmployee) {
-      // console.log(workforceArr);
-      return createEmployee(workforceArr);
-    } else {
-      // console.log(workforceArr);
-      return workforceArr;
+      return createIntern();
     }
   });
 };
@@ -223,7 +254,6 @@ const createPage = (completedHTML) => {
 createManager()
   .then(createEmployee)
   .then((workforceArr) => {
-    // console.log(workforceArr);
     return generateHTML(workforceArr);
   })
   .then((completedHTML) => {
