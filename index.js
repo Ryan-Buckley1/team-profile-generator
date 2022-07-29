@@ -1,3 +1,4 @@
+//Imports
 const inquirer = require("inquirer");
 const fs = require("fs");
 const Manager = require("./src/lib/Manager");
@@ -5,8 +6,10 @@ const Engineer = require("./src/lib/Engineer");
 const Intern = require("./src/lib/Intern");
 const generateHTML = require("./src/generateHTML");
 
+//Starts with empty global array to get information from user to send to GenerateHTML to create the HTML page
 let workforceArr = [];
 
+//Questions for user to develop their manager
 const managerQuestions = [
   {
     name: "name",
@@ -58,6 +61,7 @@ const managerQuestions = [
   },
 ];
 
+//Question to determine whether the Employee will be a Engineer or an Intern
 const employeeQuestions = [
   {
     name: "role",
@@ -67,6 +71,7 @@ const employeeQuestions = [
   },
 ];
 
+//Questions specifically for the Engineer class
 const engineerQuestion = [
   {
     name: "name",
@@ -124,6 +129,7 @@ const engineerQuestion = [
   },
 ];
 
+//Questions specifially for the Intern Class
 const internQuestion = [
   {
     name: "name",
@@ -181,6 +187,7 @@ const internQuestion = [
   },
 ];
 
+//Takes input from user to create a new Manager and pushes the new object into the workforce array.
 const createManager = () => {
   return inquirer.prompt(managerQuestions).then((manAnswers) => {
     const manager = new Manager(
@@ -194,6 +201,7 @@ const createManager = () => {
   });
 };
 
+//Takes input from user to create a new Intern and pushes the new object into the workforce array and checks to see if user selected to add another employee.
 const createIntern = () => {
   return inquirer.prompt(internQuestion).then((intAnswers) => {
     const intern = new Intern(
@@ -212,6 +220,7 @@ const createIntern = () => {
   });
 };
 
+//Takes input from user to create a new Engineer and pushes the new object into the workforce array and checks to see if user selected to add another employee.
 const createEngineer = () => {
   return inquirer.prompt(engineerQuestion).then((engAnswers) => {
     const engineer = new Engineer(
@@ -230,6 +239,7 @@ const createEngineer = () => {
   });
 };
 
+//Checks to see if the user wants to make a new Engineer or Intern and starts the function in context with their choice.
 const createEmployee = () => {
   return inquirer.prompt(employeeQuestions).then((empAnswers) => {
     if (empAnswers.role === "Engineer") {
@@ -239,7 +249,7 @@ const createEmployee = () => {
     }
   });
 };
-
+//creates the index.html page using the information from generateHTML.js
 const createPage = (completedHTML) => {
   fs.writeFile("./src/dist/index.html", completedHTML, (err) => {
     if (err) {
@@ -251,6 +261,7 @@ const createPage = (completedHTML) => {
   });
 };
 
+//Upon start the user is to create their manager, then go through the employees they want, then generate the HTML using the array of objects sent to generateHTML.js, then creates the page using the information form generate HTML
 createManager()
   .then(createEmployee)
   .then((workforceArr) => {

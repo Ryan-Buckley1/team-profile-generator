@@ -1,4 +1,4 @@
-// selected from list
+// Engineer class supered by employee
 const Employee = require("./Employee");
 
 class Engineer extends Employee {

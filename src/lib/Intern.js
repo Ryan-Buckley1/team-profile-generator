@@ -1,4 +1,4 @@
-// selected from list
+// Intern class supered by imported Employee
 const Employee = require("./Employee");
 
 class Intern extends Employee {

@@ -1,4 +1,4 @@
-// 1 manager
+// Manager class using some information from Employee.js
 const Employee = require("./Employee");
 
 class Manager extends Employee {
@@ -13,5 +13,5 @@ class Manager extends Employee {
     return "Manager";
   }
 }
-
+//exports Manager
 module.exports = Manager;
